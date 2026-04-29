@@ -1,5 +1,6 @@
 from groq import Groq
-client = Groq (api_key="--")
+client = Groq (api_key="")
+
 def generate_password(length=16):
     if length < 8:
         raise ValueError("Password length should be at least 8 characters for security reasons.")
@@ -9,7 +10,7 @@ def generate_password(length=16):
         messages=[
             {
                 "role": "system",
-                "content": "You are a password generator. Generate a strong password with the specified length."
+                "content": "You are a password generator. Generate a strong password with the specified length. only return the password, no other text or suggestions"
             },
             {
                 "role": "user",
@@ -17,7 +18,7 @@ def generate_password(length=16):
             }
         ]
     )
-    
+
     password = chat_completion.choices[0].message.content.strip()
     return password
 # Example usage
@@ -29,8 +30,10 @@ except ValueError as ve:
     print(f"Error: {ve}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}") 
+
+
 vault = {
-    "generated_password": generate_password(20)
+    "generated_password": new_password
 }
 
 print(f"Dictionary Storage: {vault}")
